@@ -21,6 +21,10 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role',
+        'avatar',
+        'last_login',
+        'is_active',
     ];
 
     /**
@@ -43,6 +47,40 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'last_login' => 'datetime',
+            'is_active' => 'boolean',
         ];
+    }
+
+    /**
+     * Get the blogs for the user.
+     */
+    public function blogs()
+    {
+        return $this->hasMany(Blog::class, 'author_id');
+    }
+
+    /**
+     * Get the portfolios for the user.
+     */
+    public function portfolios()
+    {
+        return $this->hasMany(Portfolio::class, 'author_id');
+    }
+
+    /**
+     * Get the contacts assigned to the user.
+     */
+    public function assignedContacts()
+    {
+        return $this->hasMany(Contact::class, 'assigned_to');
+    }
+
+    /**
+     * Get the media files uploaded by the user.
+     */
+    public function mediaFiles()
+    {
+        return $this->hasMany(MediaFile::class, 'uploaded_by');
     }
 }
